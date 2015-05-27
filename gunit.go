@@ -80,7 +80,8 @@ func (self *Fixture) Errorf(format string, args ...interface{}) {
 
 func (self *Fixture) reportFailure(failure string) {
 	_, file, line, _ := runtime.Caller(2) // 0: reportFailre + 1: Error/Errorf/So + 2: func Test...
-	self.log.WriteString(fmt.Sprintf("\tX FAILED: %s:%d\n", file, line))
+	assertion := Assertions[filepath.Base(file)][line]
+	self.log.WriteString(fmt.Sprintf("\tX FAILED: %s:%d\n\t\t%s\n", file, line, assertion))
 	fmt.Fprint(self.log, "\t\t"+strings.Replace(failure, "\n", "\n\t\t", -1)+"\n")
 }
 
@@ -134,3 +135,5 @@ func exit(message string, args ...interface{}) {
 
 var verbose = testing.Verbose
 var out io.Writer = os.Stdout
+
+var Assertions map[string]map[int]string // map[filename]map[line]assertion

@@ -49,7 +49,6 @@ func ReadFiles(directory string, files []os.FileInfo) ([]byte, error) {
 		if err != nil {
 			return nil, err
 		}
-
 	}
 	return all.Bytes(), nil
 }

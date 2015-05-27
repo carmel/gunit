@@ -74,7 +74,8 @@ func (self *EnvironmentControllerFixture) RunTestCase__(test func(), description
 ///////////////////////////////////////////////////////////////////////////////
 
 func init() {
-	gunit.Validate("0a085d3a3201a50b682d18a273aa68de")
+	gunit.Assertions = map[string]map[int]string{"environment_controller_hvac_fake_test.go": map[int]string{}, "environment_controller_test.go": map[int]string{32: "self.So(self.hardware.String(), should.Equal, \"heater BLOWER COOLER low high\")", 37: "self.So(self.hardware.String(), should.Equal, \"HEATER BLOWER cooler low high\")", 42: "self.So(self.hardware.String(), should.Equal, \"heater BLOWER COOLER low HIGH\")", 47: "self.So(self.hardware.String(), should.Equal,", 81: "self.So(self.hardware.String(), should.Equal, \"heater blower cooler low high\")"}, "bowling_game_test.go": map[int]string{35: "self.So(self.game.Score(), should.Equal, 21)", 43: "self.So(self.game.Score(), should.Equal, 24)", 48: "self.So(self.game.Score(), should.Equal, 300)", 22: "self.So(self.game.Score(), should.Equal, 0)", 27: "self.So(self.game.Score(), should.Equal, 20)"}}
+	gunit.Validate("b86dec445670a43b72d678682518024c")
 }
 
 ///////////////////////////////////////////////////////////////////////////////

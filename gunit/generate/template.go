@@ -61,6 +61,7 @@ import (
 const footer = `
 
 func init() {
+	gunit.Assertions = %#v
 	gunit.Validate("%s")
 }
 
