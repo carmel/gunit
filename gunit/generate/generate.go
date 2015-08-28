@@ -40,9 +40,9 @@ func executeTemplate(template *template.Template, data interface{}) ([]byte, err
 }
 
 var skippedFixtureTemplate = template.Must(template.
-	New("testFunction").Funcs(map[string]interface{}{"sentence": toSentence}).
+	New("testFunction").Funcs(map[string]interface{}{"sentence": ToSentence}).
 	Parse(rawSkippedFixture))
 
 var testFixtureTemplate = template.Must(template.
-	New("testFunction").Funcs(map[string]interface{}{"sentence": toSentence}).
+	New("testFunction").Funcs(map[string]interface{}{"sentence": ToSentence}).
 	Parse(rawTestFunction))

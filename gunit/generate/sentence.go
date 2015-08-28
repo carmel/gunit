@@ -15,11 +15,11 @@ var (
 	// Reference: http://stackoverflow.com/a/8837360/605022
 )
 
-// toSentence turns identifiers (pascal-cased or underscored) into sentences.
+// ToSentence turns identifiers (pascal-cased or underscored) into sentences.
 // It replaces underscores with spaces (ie. 'Super_awesome' -> 'super awesome').
 // It inserts spaces at casing boundaries (id. 'SuperAwesome' -> 'Super awesome').
 // It counts UPPERCASE acronyms as words (ie. 'ILikeHTTP' -> 'I like http').
-func toSentence(input string) string {
+func ToSentence(input string) string {
 	input = removeTestAndLongPrefix(input)
 	input = breakWordsApart(input)
 	input = removeMultipleSpaces(input)

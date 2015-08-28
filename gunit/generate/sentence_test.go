@@ -7,7 +7,7 @@ func TestIdentifierToSentence(t *testing.T) {
 		if test.SKIP {
 			t.Log("?? Skipping case #", i)
 		} else {
-			if result := toSentence(test.input); result != test.expected {
+			if result := ToSentence(test.input); result != test.expected {
 				t.Errorf("\nExpected: '%s' \nActual:   '%s'", test.expected, result)
 			} else {
 				t.Logf("'%s' -> '%s'", test.input, result)
