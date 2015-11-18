@@ -1,33 +1,33 @@
 package examples
 
-//go:generate gunit
-
 import (
+	"testing"
+
 	"github.com/smartystreets/assertions/should"
 	"github.com/smartystreets/gunit"
 )
 
-type BowlingGameScoringTests struct {
+type BowlingGameFixture struct {
 	*gunit.Fixture
 
 	game *Game
 }
 
-func (self *BowlingGameScoringTests) Setup() {
+func (self *BowlingGameFixture) Setup() {
 	self.game = NewGame()
 }
 
-func (self *BowlingGameScoringTests) TestAfterAllGutterBallsTheScoreShouldBeZero() {
+func (self *BowlingGameFixture) TestAfterAllGutterBallsTheScoreShouldBeZero() {
 	self.rollMany(20, 0)
 	self.So(self.game.Score(), should.Equal, 0)
 }
 
-func (self *BowlingGameScoringTests) TestAfterAllOnesTheScoreShouldBeTwenty() {
+func (self *BowlingGameFixture) TestAfterAllOnesTheScoreShouldBeTwenty() {
 	self.rollMany(20, 1)
 	self.So(self.game.Score(), should.Equal, 20)
 }
 
-func (self *BowlingGameScoringTests) TestSpareReceivesSingleRollBonus() {
+func (self *BowlingGameFixture) TestSpareReceivesSingleRollBonus() {
 	self.rollSpare()
 	self.game.Roll(4)
 	self.game.Roll(3)
@@ -35,7 +35,7 @@ func (self *BowlingGameScoringTests) TestSpareReceivesSingleRollBonus() {
 	self.So(self.game.Score(), should.Equal, 21)
 }
 
-func (self *BowlingGameScoringTests) TestStrikeRecievesDoubleRollBonus() {
+func (self *BowlingGameFixture) TestStrikeReceivesDoubleRollBonus() {
 	self.rollStrike()
 	self.game.Roll(4)
 	self.game.Roll(3)
@@ -43,20 +43,28 @@ func (self *BowlingGameScoringTests) TestStrikeRecievesDoubleRollBonus() {
 	self.So(self.game.Score(), should.Equal, 24)
 }
 
-func (self *BowlingGameScoringTests) TestPerfectGame() {
+func (self *BowlingGameFixture) TestPerfectGame() {
 	self.rollMany(12, 10)
 	self.So(self.game.Score(), should.Equal, 300)
 }
 
-func (self *BowlingGameScoringTests) rollMany(times, pins int) {
+func (self *BowlingGameFixture) rollMany(times, pins int) {
 	for x := 0; x < times; x++ {
 		self.game.Roll(pins)
 	}
 }
-func (self *BowlingGameScoringTests) rollSpare() {
+func (self *BowlingGameFixture) rollSpare() {
 	self.game.Roll(5)
 	self.game.Roll(5)
 }
-func (self *BowlingGameScoringTests) rollStrike() {
+func (self *BowlingGameFixture) rollStrike() {
 	self.game.Roll(10)
 }
+
+///////////////////////////////////////////////////////////////////////////////
+
+func TestAfterAllGutterBallsTheScoreShouldBeZero(t *testing.T) { gunit.Run(&BowlingGameFixture{}, t) }
+func TestAfterAllOnesTheScoreShouldBeTwenty(t *testing.T)      { gunit.Run(&BowlingGameFixture{}, t) }
+func TestSpareReceivesSingleRollBonus(t *testing.T)            { gunit.Run(&BowlingGameFixture{}, t) }
+func TestStrikeReceivesDoubleRollBonus(t *testing.T)           { gunit.Run(&BowlingGameFixture{}, t) }
+func TestPerfectGame(t *testing.T)                             { gunit.Run(&BowlingGameFixture{}, t) }
