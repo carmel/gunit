@@ -7,64 +7,60 @@ import (
 	"github.com/smartystreets/gunit"
 )
 
-type BowlingGameFixture struct {
-	*gunit.Fixture
+///////////////////////////////////////////////////////////////////////////////
 
-	game *Game
-}
+func TestGutterBalls(t *testing.T) { gunit.Run(&BowlingFixture{}, t) }
+func TestAllOnes(t *testing.T)     { gunit.Run(&BowlingFixture{}, t) }
+func TestSpare(t *testing.T)       { gunit.Run(&BowlingFixture{}, t) }
+func TestStrike(t *testing.T)      { gunit.Run(&BowlingFixture{}, t) }
+func TestPerfection(t *testing.T)  { gunit.Run(&BowlingFixture{}, t) }
 
-func (self *BowlingGameFixture) Setup() {
-	self.game = NewGame()
-}
+///////////////////////////////////////////////////////////////////////////////
 
-func (self *BowlingGameFixture) TestAfterAllGutterBallsTheScoreShouldBeZero() {
-	self.rollMany(20, 0)
-	self.So(self.game.Score(), should.Equal, 0)
-}
-
-func (self *BowlingGameFixture) TestAfterAllOnesTheScoreShouldBeTwenty() {
-	self.rollMany(20, 1)
-	self.So(self.game.Score(), should.Equal, 20)
+func (this *BowlingFixture) TestGutterBalls() {
+	this.rollMany(20, 0)
+	this.So(this.game.Score(), should.Equal, 0)
 }
 
-func (self *BowlingGameFixture) TestSpareReceivesSingleRollBonus() {
-	self.rollSpare()
-	self.game.Roll(4)
-	self.game.Roll(3)
-	self.rollMany(16, 0)
-	self.So(self.game.Score(), should.Equal, 21)
+func (this *BowlingFixture) TestAllOnes() {
+	this.rollMany(20, 1)
+	this.So(this.game.Score(), should.Equal, 20)
 }
 
-func (self *BowlingGameFixture) TestStrikeReceivesDoubleRollBonus() {
-	self.rollStrike()
-	self.game.Roll(4)
-	self.game.Roll(3)
-	self.rollMany(16, 0)
-	self.So(self.game.Score(), should.Equal, 24)
+func (this *BowlingFixture) TestSpare() {
+	this.rollSpare()
+	this.game.Roll(3)
+	this.game.Roll(1)
+	this.rollMany(16, 0)
+
+	this.So(this.game.Score(), should.Equal, 17)
 }
 
-func (self *BowlingGameFixture) TestPerfectGame() {
-	self.rollMany(12, 10)
-	self.So(self.game.Score(), should.Equal, 300)
+func (this *BowlingFixture) TestStrike() {
+	this.rollStrike()
+	this.game.Roll(3)
+	this.game.Roll(4)
+	this.rollMany(16, 0)
+	this.So(this.game.Score(), should.Equal, 24)
 }
 
-func (self *BowlingGameFixture) rollMany(times, pins int) {
-	for x := 0; x < times; x++ {
-		self.game.Roll(pins)
-	}
-}
-func (self *BowlingGameFixture) rollSpare() {
-	self.game.Roll(5)
-	self.game.Roll(5)
-}
-func (self *BowlingGameFixture) rollStrike() {
-	self.game.Roll(10)
+func (this *BowlingFixture) TestPerfection() {
+	this.rollMany(12, 10)
+	this.So(this.game.Score(), should.Equal, 300)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-func TestAfterAllGutterBallsTheScoreShouldBeZero(t *testing.T) { gunit.Run(&BowlingGameFixture{}, t) }
-func TestAfterAllOnesTheScoreShouldBeTwenty(t *testing.T)      { gunit.Run(&BowlingGameFixture{}, t) }
-func TestSpareReceivesSingleRollBonus(t *testing.T)            { gunit.Run(&BowlingGameFixture{}, t) }
-func TestStrikeReceivesDoubleRollBonus(t *testing.T)           { gunit.Run(&BowlingGameFixture{}, t) }
-func TestPerfectGame(t *testing.T)                             { gunit.Run(&BowlingGameFixture{}, t) }
+type BowlingFixture struct {
+	*gunit.Fixture
+	game *Game
+}
+
+func (this *BowlingFixture) Setup()      { this.game = NewGame() }
+func (self *BowlingFixture) rollStrike() { self.game.Roll(10) }
+func (self *BowlingFixture) rollSpare()  { self.rollMany(2, 5) }
+func (this *BowlingFixture) rollMany(times, pins int) {
+	for x := 0; x < times; x++ {
+		this.game.Roll(pins)
+	}
+}

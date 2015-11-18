@@ -11,7 +11,7 @@ func Run(fixture interface{}, t TT) { // TODO: add Parallel() to TT and call it
 	id, _, _, ok := runtime.Caller(1)
 	if !ok {
 		t.Fail()
-		t.Log("No can do (can't resolve caller)")
+		t.Log("gunit.Run Error: can't resolve caller)")
 		return
 	}
 	fullTestName := runtime.FuncForPC(id).Name()
@@ -20,27 +20,27 @@ func Run(fixture interface{}, t TT) { // TODO: add Parallel() to TT and call it
 	testCase := fixtureValue.MethodByName(testCaseName)
 	if !testCase.IsValid() {
 		t.Fail()
-		t.Log("No can do (can't resolve test method called '" + testCaseName + "')")
+		t.Log("gunit.Run Error: can't resolve test method called '" + testCaseName + "'")
 		return
 	}
 
 	fixtureField := fixtureValue.Elem().FieldByName("Fixture")
 	if !fixtureField.IsValid() {
 		t.Fail()
-		t.Log("No can do (couldn't find embedded *gunit.Fixture)")
+		t.Log("gunit.Run Error: couldn't find embedded *gunit.Fixture")
 		return
 	}
 
 	if !fixtureField.CanSet() {
 		t.Fail()
-		t.Log("No can do (CanSet() == false)")
+		t.Log("gunit.Run Error: CanSet() == false")
 		return
 	}
 
 	innerFixture := NewFixture(t, testing.Verbose(), "")
 	if fixtureField.Type() != reflect.TypeOf(innerFixture) {
 		t.Fail()
-		t.Log("No can do (Fixture field isn't a *gunit.Fixture)")
+		t.Log("gunit.Run Error: Fixture field isn't a *gunit.Fixture")
 		return
 	}
 
